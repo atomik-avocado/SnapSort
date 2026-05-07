@@ -91,7 +91,3 @@ When you add or remove an app from the **Apps** menu, SnapSort automatically wip
 - With **Mistral**, screenshots go only to Mistral's API for classification, only when you press Sort or open the app.
 - With **Ollama**, screenshots go only to your own computer over your local Wi-Fi — they never leave your network.
 - There is no SnapSort backend. Nothing is uploaded anywhere else.
-
-## License
-
-[Add a license here — MIT, Apache-2.0, etc.]
