@@ -45,6 +45,9 @@ actor ClassificationCoordinator {
         }
 
         for batch in batches {
+            // Honour cancellation between batches so a user-initiated
+            // cancelSort() actually halts further work.
+            if Task.isCancelled { break }
             await withTaskGroup(of: (String, String?).self) { group in
                 for asset in batch {
                     let id = asset.localIdentifier

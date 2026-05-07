@@ -12,7 +12,8 @@ struct SnapSortApp: App {
         let known = KnownAppsStore()
         let cache = ClassificationCache()
         let mistral = MistralClient(config: config)
-        let vision = VisionService(mistral: mistral)
+        let ollama = OllamaClient(config: config)
+        let vision = VisionService(mistral: mistral, ollama: ollama, config: config)
         let library = PhotoLibraryService()
         let coordinator = ClassificationCoordinator(
             vision: vision,
@@ -50,8 +51,8 @@ struct RootView: View {
 
     var body: some View {
         Group {
-            if !configStore.hasAPIKey {
-                SettingsView(isFirstLaunch: true)
+            if !configStore.isReady {
+                SettingsView(isFirstLaunch: true, vision: vision)
             } else if !knownAppsStore.hasCompletedSetup {
                 AppDetectionView(vision: vision, knownAppsStore: knownAppsStore)
             } else {

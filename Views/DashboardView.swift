@@ -36,7 +36,7 @@ struct DashboardView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar { topBarToolbar }
             .sheet(isPresented: $showSettings) {
-                SettingsView(isFirstLaunch: false)
+                SettingsView(isFirstLaunch: false, vision: vision)
             }
             .sheet(isPresented: $showApps) {
                 KnownAppsView(vision: vision)
@@ -44,7 +44,8 @@ struct DashboardView: View {
             .fullScreenCover(isPresented: $showSortScreen) {
                 SortingLoadingView(
                     done: progressDone,
-                    total: progressTotal
+                    total: progressTotal,
+                    onCancel: { viewModel.cancelSort() }
                 )
             }
             .alert(

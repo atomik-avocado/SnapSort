@@ -3,9 +3,12 @@ import SwiftUI
 struct SortingLoadingView: View {
     let done: Int
     let total: Int
+    var onCancel: (() -> Void)? = nil
+
+    @State private var cancelled = false
 
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             Color.snapBg.ignoresSafeArea()
 
             VStack(spacing: 0) {
@@ -13,22 +16,61 @@ struct SortingLoadingView: View {
 
                 AnimationStage()
                     .frame(width: 280, height: 220)
+                    .opacity(cancelled ? 0.45 : 1)
 
                 statusBlock
                     .padding(.top, 40)
 
                 Spacer(minLength: 0)
+
+                if onCancel != nil {
+                    cancelButton
+                        .padding(.bottom, 32)
+                }
             }
             .padding(.horizontal, 32)
         }
         .interactiveDismissDisabled()
     }
 
+    private var cancelButton: some View {
+        Button {
+            cancelled = true
+            onCancel?()
+        } label: {
+            HStack(spacing: 8) {
+                if cancelled {
+                    ProgressView().controlSize(.small)
+                    Text("Cancelling…")
+                        .font(.system(size: 14, weight: .semibold))
+                } else {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 12, weight: .bold))
+                    Text("Cancel")
+                        .font(.system(size: 14, weight: .semibold))
+                }
+            }
+            .foregroundStyle(Color.snapTextMuted)
+            .padding(.horizontal, 22)
+            .padding(.vertical, 11)
+            .background(
+                Capsule().fill(Color.snapMuted)
+            )
+            .overlay(
+                Capsule().strokeBorder(Color.snapBorder, lineWidth: 1)
+            )
+        }
+        .disabled(cancelled)
+        .animation(.easeInOut(duration: 0.18), value: cancelled)
+    }
+
     private var statusBlock: some View {
         VStack(spacing: 14) {
-            Text("Sorting your screenshots")
+            Text(cancelled ? "Wrapping up the current batch…" : "Sorting your screenshots")
                 .font(.system(size: 19, weight: .semibold))
                 .foregroundStyle(Color.snapText)
+                .multilineTextAlignment(.center)
+                .animation(.easeInOut(duration: 0.18), value: cancelled)
 
             Text(progressLabel)
                 .font(.system(size: 13, weight: .medium))

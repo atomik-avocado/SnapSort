@@ -33,6 +33,8 @@
 		DD1B000000000000000000A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC1B000000000000000000A0 /* Assets.xcassets */; };
 		DD1E000000000000000000A0 /* VisionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1E000000000000000000A0 /* VisionService.swift */; };
 		DD1F000000000000000000A0 /* MistralClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1F000000000000000000A0 /* MistralClient.swift */; };
+		DD20000000000000000000A0 /* AIBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC20000000000000000000A0 /* AIBackend.swift */; };
+		DD21000000000000000000A0 /* OllamaClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC21000000000000000000A0 /* OllamaClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +67,9 @@
 		CC1B000000000000000000A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC1E000000000000000000A0 /* VisionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionService.swift; sourceTree = "<group>"; };
 		CC1F000000000000000000A0 /* MistralClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MistralClient.swift; sourceTree = "<group>"; };
+		CC20000000000000000000A0 /* AIBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIBackend.swift; sourceTree = "<group>"; };
+		CC21000000000000000000A0 /* OllamaClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OllamaClient.swift; sourceTree = "<group>"; };
+		CC22000000000000000000A0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +95,7 @@
 				BB05000000000000000000A0 /* Resources */,
 				CC11000000000000000000A0 /* README.md */,
 				AA03000000000000000000A0 /* Products */,
+				CC22000000000000000000A0 /* Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -107,6 +113,7 @@
 				CC02000000000000000000A0 /* ScreenshotItem.swift */,
 				CC03000000000000000000A0 /* AppGroup.swift */,
 				CC14000000000000000000A0 /* KnownApp.swift */,
+				CC20000000000000000000A0 /* AIBackend.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -121,6 +128,7 @@
 				CC1F000000000000000000A0 /* MistralClient.swift */,
 				CC1E000000000000000000A0 /* VisionService.swift */,
 				CC08000000000000000000A0 /* ClassificationCoordinator.swift */,
+				CC21000000000000000000A0 /* OllamaClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -255,6 +263,8 @@
 				DD1A000000000000000000A0 /* SnapSortLogo.swift in Sources */,
 				DD1E000000000000000000A0 /* VisionService.swift in Sources */,
 				DD1F000000000000000000A0 /* MistralClient.swift in Sources */,
+				DD20000000000000000000A0 /* AIBackend.swift in Sources */,
+				DD21000000000000000000A0 /* OllamaClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,14 +396,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 938W55SV7V;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "SnapSort needs Photos access to delete screenshots you remove from the app.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SnapSort reads your screenshots so it can group them by the app they were taken in.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -415,14 +419,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 938W55SV7V;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "SnapSort needs Photos access to delete screenshots you remove from the app.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SnapSort reads your screenshots so it can group them by the app they were taken in.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

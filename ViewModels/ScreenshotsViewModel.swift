@@ -31,6 +31,7 @@ final class ScreenshotsViewModel: NSObject, ObservableObject, PHPhotoLibraryChan
     private var hasBootstrapped = false
     private var lastClassifiedSignature: String?
     private var cancellables: Set<AnyCancellable> = []
+    private var sortTask: Task<Void, Never>?
 
     var isClassifying: Bool {
         if case .classifying = state { return true }
@@ -106,10 +107,16 @@ final class ScreenshotsViewModel: NSObject, ObservableObject, PHPhotoLibraryChan
     }
 
     /// User-triggered: re-fetch the library and classify anything new.
+    /// Wraps the work in a cancellable Task so `cancelSort()` can stop it.
     func sort() async {
         guard !isClassifying else { return }
-        await reloadAssets()
-        await classifyUnclassified()
+        let task = Task { [weak self] in
+            await self?.reloadAssets()
+            await self?.classifyUnclassified()
+        }
+        sortTask = task
+        await task.value
+        sortTask = nil
     }
 
     /// Wipe all classifications and re-run sort with the current known-apps list.
@@ -118,8 +125,19 @@ final class ScreenshotsViewModel: NSObject, ObservableObject, PHPhotoLibraryChan
         await cache.clearAll()
         classifications.removeAll()
         rebuildGroups()
-        await reloadAssets()
-        await classifyUnclassified()
+        let task = Task { [weak self] in
+            await self?.reloadAssets()
+            await self?.classifyUnclassified()
+        }
+        sortTask = task
+        await task.value
+        sortTask = nil
+    }
+
+    /// Stop an in-progress sort. The current batch finishes (its in-flight
+    /// HTTP requests get cancelled), then no further batches start.
+    func cancelSort() {
+        sortTask?.cancel()
     }
 
     func screenshots(for appName: String) -> [ScreenshotItem] {
@@ -232,7 +250,11 @@ final class ScreenshotsViewModel: NSObject, ObservableObject, PHPhotoLibraryChan
         if let err = await coordinator.lastErrorMessage {
             lastError = err
         }
-        lastClassifiedSignature = currentSignature()
+        // Only mark this round of work as "fully classified for current
+        // app list" if the user didn't cancel partway through.
+        if !Task.isCancelled {
+            lastClassifiedSignature = currentSignature()
+        }
         state = .ready
     }
 

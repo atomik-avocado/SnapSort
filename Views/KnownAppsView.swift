@@ -10,6 +10,7 @@ struct KnownAppsView: View {
     @State private var newAppName = ""
     @State private var presentScan = false
     @State private var pendingDelete: KnownApp?
+    @State private var pendingDeleteAll = false
 
     var body: some View {
         NavigationStack {
@@ -39,6 +40,10 @@ struct KnownAppsView: View {
                                 RoundedRectangle(cornerRadius: 12, style: .continuous)
                                     .fill(Color.snapAccentSoft)
                             )
+                        }
+
+                        if !knownAppsStore.apps.isEmpty {
+                            deleteAllButton
                         }
                     }
                     .padding(20)
@@ -85,6 +90,41 @@ struct KnownAppsView: View {
             } message: { app in
                 Text("\(app.name) will no longer be used as a hint when classifying screenshots.")
             }
+            .alert(
+                "Delete all apps?",
+                isPresented: $pendingDeleteAll
+            ) {
+                Button("Delete All", role: .destructive) {
+                    knownAppsStore.clearAll()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Removes all \(knownAppsStore.apps.count) apps. SnapSort will re-sort screenshots without an app-list hint.")
+            }
+        }
+    }
+
+    private var deleteAllButton: some View {
+        Button(role: .destructive) {
+            pendingDeleteAll = true
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "trash")
+                    .font(.system(size: 13, weight: .semibold))
+                Text("Delete All Apps")
+                    .font(.system(size: 14, weight: .semibold))
+            }
+            .foregroundStyle(.red)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .fill(Color.red.opacity(0.10))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    .strokeBorder(Color.red.opacity(0.25), lineWidth: 1)
+            )
         }
     }
 
